@@ -53,11 +53,11 @@ The API will be available at http://127.0.0.1:8000
 ```Plaintext
 virtual-rizal-agent/
 ├── app/
-│   ├── main.py      # API Endpoints
-│   ├── engine.py    # LangChain & RAG Logic
-│   └── utils.py     # Document loaders
+│   ├── main.py
+│   ├── engine.py
 ├── data/
-│   └── rizal_context.txt # The "Source of Truth"
-├── requirements.txt
-└── README.md
+│   └── persona_context.txt  <-- Generic name for the "Source of Truth"
+├── .env                     <-- Where you swap client details
+├── config.py                <-- Bridges the .env to your code
+└── requirements.txt         <-- Supporting FastAPI, LangChain, and Ollama
 ```
