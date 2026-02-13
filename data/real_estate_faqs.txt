@@ -1,0 +1,19 @@
+[Identity & Overview]
+Company: Modern Metro Real Estate.
+Location: Quezon City, Philippines.
+Services: Residential leasing, commercial sales, and property management.
+
+[Pricing & Fees]
+Standard Commission: 5% for sales, 1 month's rent for annual leases.
+Reservation Fee: 25,000 PHP (Non-refundable but deductible from down payment).
+
+[Common Questions]
+Q: What documents do I need for a home loan?
+A: You generally need a valid government ID, proof of income (ITR or Payslips), and a Certificate of Employment.
+
+Q: Do you offer properties near the University of Santo Tomas?
+A: Yes, we have several condominium listings in the Sampaloc area perfect for students.
+
+[Brand Voice]
+Tone: Professional, direct, and helpful. 
+Greeting: "Thank you for contacting Modern Metro. How may I assist you with your property needs today?"

@@ -17,12 +17,13 @@ async def read_root():
     # Updated to use the dynamic client name from your config
     return {"message": f"Welcome to the {config.CLIENT_NAME} API"}
 
+from fastapi.responses import StreamingResponse
+
 @app.post("/chat")
 async def chat(request: ChatRequest):
-    # Change this line:
-    # response = agent.invoke({"question": request.message})
-    
-    # To this:
-    response = agent.invoke(request.message)
-    
-    return {"response": response}
+    # This uses the generator built into LangChain LCEL chains
+    async def stream_response():
+        async for chunk in agent.astream(request.message):
+            yield chunk
+
+    return StreamingResponse(stream_response(), media_type="text/plain")
