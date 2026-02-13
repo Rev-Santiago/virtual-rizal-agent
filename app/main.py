@@ -1,6 +1,6 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
-from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.responses import StreamingResponse, FileResponse, JSONResponse
 from langchain_core.messages import HumanMessage, AIMessage
 from app.engine import create_white_label_agent
 from app.voice import transcribe_audio, text_to_speech # Import voice module
@@ -36,31 +36,59 @@ async def chat(request: ChatRequest):
     return StreamingResponse(stream_response(), media_type="text/plain")
 
 # --- NEW VOICE ENDPOINT ---
+
+
 @app.post("/chat/voice")
 async def chat_voice(file: UploadFile = File(...)):
-    # 1. Save uploaded audio
+    # 1. Validate file size (Safety Gate)
+    # If the file is extremely small, it's likely just a header with no audio content
+    audio_data = await file.read()
+    if len(audio_data) < 1000: 
+        raise HTTPException(status_code=400, detail="Audio file too small or empty.")
+
+    # 2. Save uploaded audio
     temp_input = "temp_input.wav"
     with open(temp_input, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # 2. Transcribe (STT)
-    user_text = transcribe_audio(temp_input)
-    print(f"User said: {user_text}")
+    try:
+        # 3. Transcribe (STT)
+        user_text = transcribe_audio(temp_input)
+        
+        # 4. Handle Empty Transcription (Silence)
+        # If whisper detects only silence, it returns an empty string
+        if not user_text.strip():
+             return JSONResponse(
+                status_code=200, 
+                content={"message": "No speech detected."},
+                headers={"X-Text-Response": "I couldn't hear anything. Please try again."}
+            )
 
-    # 3. Generate AI Response (Text)
-    chain_input = {"question": user_text, "chat_history": CHAT_HISTORY}
-    ai_response_text = await agent.ainvoke(chain_input) # Non-streaming for audio
-    
-    # Update History
-    CHAT_HISTORY.append(HumanMessage(content=user_text))
-    CHAT_HISTORY.append(AIMessage(content=ai_response_text))
+        print(f"User said: {user_text}")
 
-    # 4. Convert to Speech (TTS)
-    output_audio = "temp_output.mp3"
-    await text_to_speech(ai_response_text, output_audio)
+        # 5. Generate AI Response (Text)
+        chain_input = {"question": user_text, "chat_history": CHAT_HISTORY}
+        ai_response_text = await agent.ainvoke(chain_input)
+        
+        # Update History
+        CHAT_HISTORY.append(HumanMessage(content=user_text))
+        CHAT_HISTORY.append(AIMessage(content=ai_response_text))
 
-    # 5. Return Audio File
-    return FileResponse(output_audio, media_type="audio/mpeg", headers={"X-Text-Response": ai_response_text})
+        # 6. Convert to Speech (TTS)
+        output_audio = "temp_output.mp3"
+        await text_to_speech(ai_response_text, output_audio)
+
+        # 7. Return Audio File
+        return FileResponse(
+            output_audio, 
+            media_type="audio/mpeg", 
+            headers={"X-Text-Response": ai_response_text}
+        )
+
+    except Exception as e:
+        print(f"STT/TTS Error: {e}")
+        # Return a 500 error instead of letting the whole container crash
+        raise HTTPException(status_code=500, detail="Internal error processing audio.")
 
 @app.post("/clear_history")
 async def clear_history():
