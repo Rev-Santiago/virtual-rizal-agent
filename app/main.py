@@ -1,29 +1,48 @@
 from fastapi import FastAPI
-from pydantic import BaseModel # Ensure this is imported
+from pydantic import BaseModel
+from fastapi.responses import StreamingResponse
+from langchain_core.messages import HumanMessage, AIMessage
 from app.engine import create_white_label_agent
 import config
 
 app = FastAPI(title=f"{config.CLIENT_NAME} AI Agent")
 
-# Define the agent here so the routes can access it
-# It uses the data path and persona defined in your config
+# Initialize the agent
 agent = create_white_label_agent(config.DATA_PATH, config.SYSTEM_PROMPT)
+
+# Simple in-memory history (clears when server restarts)
+CHAT_HISTORY = []
 
 class ChatRequest(BaseModel):
     message: str
 
 @app.get("/")
 async def read_root():
-    # Updated to use the dynamic client name from your config
     return {"message": f"Welcome to the {config.CLIENT_NAME} API"}
-
-from fastapi.responses import StreamingResponse
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
-    # This uses the generator built into LangChain LCEL chains
+    # 1. Prepare the input with history
+    chain_input = {
+        "question": request.message,
+        "chat_history": CHAT_HISTORY
+    }
+
+    # 2. Stream the response and build the full answer for history
     async def stream_response():
-        async for chunk in agent.astream(request.message):
+        full_response = ""
+        async for chunk in agent.astream(chain_input):
+            full_response += chunk
             yield chunk
+        
+        # 3. Update History after full generation
+        CHAT_HISTORY.append(HumanMessage(content=request.message))
+        CHAT_HISTORY.append(AIMessage(content=full_response))
 
     return StreamingResponse(stream_response(), media_type="text/plain")
+
+@app.post("/clear_history")
+async def clear_history():
+    global CHAT_HISTORY
+    CHAT_HISTORY = []
+    return {"status": "History cleared"}

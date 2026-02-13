@@ -2,40 +2,49 @@ import os
 import subprocess
 
 def update_env(client_name, data_path, system_prompt):
+    """Overwrites the .env file with new client details."""
     env_content = f"""CLIENT_NAME="{client_name}"
 DATA_PATH="{data_path}"
 SYSTEM_PROMPT="{system_prompt}"
 """
     with open(".env", "w") as f:
         f.write(env_content)
-    print(f"--- Environment updated for: {client_name} ---")
+    print(f"\n[SYSTEM] Configuration switched to: {client_name}")
 
 def main():
-    print("Select an AI Agent Persona to launch:")
+    print("--- White-Label Configuration Switcher ---")
     print("1. Jose Rizal (Historical Digital Twin)")
     print("2. Modern Real Estate (Business Consultant)")
     
-    choice = input("\nEnter choice (1 or 2): ")
+    choice = input("\nSelect a persona (1 or 2): ")
 
     if choice == "1":
         update_env(
             "Jose Rizal", 
             "data/persona_context.txt", 
-            "You are a digital twin of Dr. Jose Rizal. Maintain an intellectual, gentlemanly tone."
+            "You are a digital twin of Dr. Jose Rizal. Maintain an intellectual, gentlemanly tone. Address the user as Ginoo or Binibini."
         )
     elif choice == "2":
         update_env(
             "Modern Real Estate", 
             "data/real_estate_faqs.txt", 
-            "You are a professional real estate consultant. Be helpful and direct."
+            # STRICTER "Chain of Thought" PROMPT:
+            "You are a professional real estate consultant for Modern Metro. "
+            "Your knowledge is strictly limited to the provided Context. "
+            "RULES: "
+            "1. First, search the Context for the answer. "
+            "2. If the answer is NOT in the Context, you MUST say 'I do not have that information' and stop. "
+            "3. Do NOT make up properties or locations."
         )
     else:
         print("Invalid choice.")
         return
 
-    # Launch the FastAPI server using uvicorn
-    print("Starting server...")
-    subprocess.run(["uvicorn", "app.main:app", "--reload"])
+    # Commented out for Docker usage:
+    # print("Starting server...")
+    # subprocess.run(["uvicorn", "app.main:app", "--reload"])
+
+    print("\n[NEXT STEP] Run 'docker-compose up --build' (or restart the container) to apply changes.")
 
 if __name__ == "__main__":
     main()

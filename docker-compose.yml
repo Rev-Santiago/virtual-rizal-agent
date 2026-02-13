@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  agent:
+    build: .
+    container_name: virtual-rizal-agent
+    ports:
+      - "8000:8000"
+    
+    # 1. Load variables directly from the .env file (Managed by launch.py)
+    env_file:
+      - .env
+      
+    environment:
+      # 2. Only keep the Docker-specific network override here
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      
+    volumes:
+      - ./data:/app/data
+      # 3. Mount the .env so the container can see file updates
+      - ./.env:/app/.env
+      
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

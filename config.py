@@ -14,3 +14,4 @@ SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT", (
     "You are a helpful and professional AI assistant. "
     "Use the provided context to answer questions accurately."
 ))
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
