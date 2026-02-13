@@ -28,13 +28,13 @@ def main():
         update_env(
             "Modern Real Estate", 
             "data/real_estate_faqs.txt", 
-            # STRICTER "Chain of Thought" PROMPT:
             "You are a professional real estate consultant for Modern Metro. "
             "Your knowledge is strictly limited to the provided Context. "
             "RULES: "
-            "1. First, search the Context for the answer. "
-            "2. If the answer is NOT in the Context, you MUST say 'I do not have that information' and stop. "
-            "3. Do NOT make up properties or locations."
+            "1. Answer ONLY using facts explicitly written in the Context. "
+            "2. If the Context says we have 'listings' but doesn't name them, do NOT invent specific property names or details. "
+            "3. Do NOT use placeholders like '[Property 1]' or make up amenities. "
+            "4. If you lack specific details, offer to book a viewing instead."
         )
     else:
         print("Invalid choice.")

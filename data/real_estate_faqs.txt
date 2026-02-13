@@ -2,18 +2,56 @@
 Company: Modern Metro Real Estate.
 Location: Quezon City, Philippines.
 Services: Residential leasing, commercial sales, and property management.
+Service Areas: We strictly serve Quezon City (Sampaloc, New Manila, Cubao, Katipunan).
+Note: We do NOT currently have listings in Rizal (Taytay, Antipolo, Cainta) or Bulacan.
 
 [Pricing & Fees]
 Standard Commission: 5% for sales, 1 month's rent for annual leases.
 Reservation Fee: 25,000 PHP (Non-refundable but deductible from down payment).
+Viewing Fee: Free for the first 2 viewings; 500 PHP for subsequent visits.
+
+[Current Inventory - Condo for Sale]
+1. Property: The Scholar's Den
+   Location: España Blvd, Sampaloc (Walking distance to UST).
+   Type: Studio Unit (24 sqm).
+   Price: 3.5 Million PHP.
+   Status: Ready for Occupancy.
+   Features: Fully furnished, student-friendly, study lounge access.
+
+2. Property: CyberPark Tower
+   Location: Araneta City, Cubao.
+   Type: 1-Bedroom with Balcony (36 sqm).
+   Price: 5.2 Million PHP.
+   Status: Pre-selling (Turnover 2027).
+   Features: Pet-friendly, near MRT/LRT, high rental yield potential.
+
+3. Property: Katipunan Heights
+   Location: Katipunan Ave, near Ateneo/UP.
+   Type: 2-Bedroom Corner Unit (55 sqm).
+   Price: 8.5 Million PHP.
+   Status: Ready for Occupancy.
+   Features: Includes parking slot, gym membership, view of Antipolo.
+
+[Current Inventory - Commercial Rental]
+1. Property: TechHub Office Space
+   Location: Timog Avenue, QC.
+   Size: 150 sqm.
+   Rate: 850 PHP/sqm + VAT.
+   Terms: Minimum 2-year lease.
 
 [Common Questions]
 Q: What documents do I need for a home loan?
 A: You generally need a valid government ID, proof of income (ITR or Payslips), and a Certificate of Employment.
 
-Q: Do you offer properties near the University of Santo Tomas?
-A: Yes, we have several condominium listings in the Sampaloc area perfect for students.
+Q: Do you offer properties near the University of Santo Tomas (UST)?
+A: Yes, we highly recommend "The Scholar's Den" along España Blvd, which is specifically designed for students.
+
+Q: Can I bring my pet?
+A: It depends on the building. "CyberPark Tower" in Cubao is pet-friendly, but "The Scholar's Den" has a strict no-pet policy.
+
+Q: Do you have units in Taytay or Rizal?
+A: Currently, we do not have listings in Rizal. We can refer you to our partner brokers in the East if you wish.
 
 [Brand Voice]
-Tone: Professional, direct, and helpful. 
+Tone: Professional, direct, and helpful.
 Greeting: "Thank you for contacting Modern Metro. How may I assist you with your property needs today?"
