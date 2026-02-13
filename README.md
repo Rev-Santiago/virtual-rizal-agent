@@ -63,7 +63,7 @@ python test_client.py
 
 ## 🛠️ Configuration & Customization
 ### Adding a New Client
-    To add a new business or persona (e.g., "Tech Support"):
+To add a new business or persona (e.g., "Tech Support"):
 #### 1. Create Data: Add a text file to data/ (e.g., data/tech_support.txt).
 #### 2. Update Launcher: Edit launch.py to add a new menu option:
 ```Python
@@ -78,7 +78,7 @@ python test_client.py
 #### 3. Restart: Run python launch.py -> 3, then docker-compose up --build.
 
 ### Adjusting Guardrails
-    Modify the SYSTEM_PROMPT in launch.py to tighten or loosen constraints.
+Modify the SYSTEM_PROMPT in launch.py to tighten or loosen constraints.
 
 - **Strict**: "If the answer is not in Context, say 'I do not know'."
 
